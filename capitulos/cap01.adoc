@@ -273,7 +273,7 @@ as implementações de `+__len__+` e `+__getitem__+` podem delegar todo o trabal
 Como foi implementado até aqui, um `FrenchDeck` não pode ser embaralhado,
 porque as cartas e suas posições não podem ser alteradas,
 exceto violando o encapsulamento e manipulando o atributo `_cards` diretamente.
-Em <<ifaces_prot_abc>> vamos corrigir isso acrescentando um método `+__setitem__+`
+No <<ifaces_prot_abc>> vamos corrigir isso acrescentando um método `+__setitem__+`
 de uma linha. Você consegue imaginar como ele seria implementado?
 =====================================================================
 
