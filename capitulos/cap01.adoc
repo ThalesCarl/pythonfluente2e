@@ -282,8 +282,7 @@ de uma linha. Você consegue imaginar como ele seria implementado?
 === Como os métodos especiais são utilizados
 
 A((("Python Data Model", "using special methods", id="PDMspecmeth01")))((("special methods", "calling"))) primeira coisa para se saber sobre os métodos especiais é que eles foram feitos para serem chamados pelo interpretador Python, e não por você.
-Você não escreve `+my_object.__len__()+`.
-Escreve `len(my_object)` e, se `my_object` é uma instância de de uma classe definida pelo usuário, então o Python chama o método `+__len__+` que você implementou.
+Não escrevemos `+my_object.__len__()+`. Escrevemos `len(my_object)` e, se `my_object` é uma instância de uma classe definida pelo usuário, então o Python chama o método `+__len__+` que você implementou.
 
 Mas o interpretador pega um atalho quando está lidando com um tipo embutido como `list`, `str`, `bytearray`, ou extensões como os arrays do NumPy.
 As coleções de tamanho variável do Python escritas em C incluem uma structfootnote:[Uma struct do C é um tipo de registro com campos nomeados.]
