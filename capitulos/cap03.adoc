@@ -969,7 +969,7 @@ Além do teste de existência extremamente rápido (graças à tabela de hash su
 
 ==== Sets literais
 
-A((("sets", "set literals"))) sintaxe de literais `set`—`{1}`, `{1, 2}`, etc.—parece exatamente igual à notação matemática, mas tem uma importante exceção: não notação literal para o `set` vazio, então precisamos nos lembrar de escrever `set()`.
+A((("sets", "set literals"))) sintaxe de literais `set`—`{1}`, `{1, 2}`, etc.—parece exatamente igual à notação matemática, mas tem uma importante exceção: não existe uma notação literal para o `set` vazio, então precisamos nos lembrar de escrever `set()`.
 
 .Peculiaridade sintática
 [WARNING]
