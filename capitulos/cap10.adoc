@@ -42,7 +42,7 @@ O objetivo desse capítulo é mostrar como—em alguns casos—as funções pode
 
 === Novidades nesse capítulo
 
-Movi((("functions, design patterns with first-class", "significant changes to"))) este capítulo para o final da Parte III, para poder então aplicar o decorador de registro na seção <<decorated_strategy>>, e também usar dicas de tipo nos exemplos.
+Movi((("functions, design patterns with first-class", "significant changes to"))) este capítulo para o final da Parte II, para poder então aplicar o decorador de registro na seção <<decorated_strategy>>, e também usar dicas de tipo nos exemplos.
 A maior parte das dicas de tipo usadas nesse capítulo não são complicadas, e ajudam na legibilidade.
 
 [[strategy_case_study]]
@@ -132,7 +132,7 @@ substituindo as estratégias concretas por funções simples e removendo a class
 São necessários apenas alguns pequenos ajustes na classe `Order`.footnote:[Precisei reimplementar `Order` com `@dataclass` devido a um bug no Mypy. Você pode ignorar esse detalhe, pois essa classe funciona também com `NamedTuple`, exatamente como no <<ex_classic_strategy>>.
 Quando `Order` é uma `NamedTuple`, o Mypy 0.910 encerra com erro ao verificar a dica de tipo para `promotion`.
 Tentei acrescentar `# type ignore` àquela linha específica, mas o erro persistia. Entretanto, se `Order` for criada com `@dataclass`, o Mypy trata corretamente a mesma dica de tipo.
-O https://fpy.li/10-3[Issue #9397] não havia sido resolvido em 19 de julho de 2021, quando essa nota foi escrita. Espero que o problema tenha sido solucionado quando você estiver lendo isso. (NT: Aparentemente foi resolvido. O Issue #9397 gerou o https://github.com/python/mypy/issues/12629[Issue #12629], fechado com indicação de solucionado em agosto de 2022, o último comentário indicando que a opção de linha de comando `--enable-recursive-aliases` do Mypy evita os erros relatados).]
+O https://fpy.li/10-3[Issue #9397] não havia sido resolvido em 19 de julho de 2021, quando essa nota foi escrita. Espero que o problema tenha sido solucionado quando você estiver lendo isso. NT: Aparentemente foi resolvido. O Issue #9397 gerou o https://github.com/python/mypy/issues/12629[Issue #12629], fechado com indicação de solucionado em agosto de 2022, o último comentário indicando que a opção de linha de comando `--enable-recursive-aliases` do Mypy evita os erros relatados).]
 
 [[ex_strategy]]
 .A classe `Order` com as estratégias de descontos implementadas como funções
@@ -281,7 +281,7 @@ Uma alternativa mais explícita para coletar dinamicamente as funções de desco
 Lembre-se((("functions, design patterns with first-class", "decorator-enhanced strategy pattern", id="FDPdecorator10")))((("refactoring strategies", "decorator-enhanced pattern", id="RSdecorator10")))((("decorator-enhanced strategy pattern", id="decenh10"))) que nossa principal objeção ao <<ex_strategy_best>> foi a repetição dos nomes das funções em suas definições e na lista `promos`, usada pela função `best_promo` para determinar o maior desconto aplicável. A repetição é problemática porque alguém pode acrescentar uma nova função de estratégia promocional e esquecer de adicioná-la manualmente à lista `promos`—caso em que `best_promo` vai silenciosamente ignorar a nova estratégia, introduzindo no sistema um bug sutil. O <<ex_strategy_best31>> resolve esse problema com a técnica vista na seção <<registration_deco_sec>>.
 
 [[ex_strategy_best31]]
-.A lista `promos` é preenchida pelo decorador `Promotion`
+.A lista `promos` é preenchida pelo decorador `promotion`
 ====
 [source, py]
 ----
@@ -289,7 +289,7 @@ include::code/10-dp-1class-func/strategy_best4.py[tags=STRATEGY_BEST4]
 ----
 ====
 <1> A lista `promos` é global no módulo, e começa vazia.
-<2> `Promotion` é um decorador de registro: ele devolve a função `promo` inalterada, após inseri-la na lista `promos`.
+<2> `promotion` é um decorador de registro: ele devolve a função `promo` inalterada, após inserí-la na lista `promos`.
 <3> Nenhuma mudança é necessária em `best_promo`, pois ela se baseia na lista `promos`.
 <4> Qualquer função decorada com `@promotion` será adicionada a `promos`.
 
@@ -356,7 +356,7 @@ Afinal, todo invocável do Python implementa uma interface de método único, e 
 
 Como((("functions, design patterns with first-class", "overview of"))) apontou Peter Norvig alguns anos após o surgimento do clássico _Padrões de Projetos_, "16 dos 23 padrões tem implementações qualitativamente mais simples em Lisp ou Dylan que em C++, pelo menos para alguns usos de cada padrão" (slide 9 da apresentação de Norvig, https://fpy.li/10-4["Design Patterns in Dynamic Languages" presentation] (_Padrões de Projetos em Linguagens Dinâmicas_)). O Python compartilha alguns dos recursos dinâmicos das linguagens Lisp e Dylan, especialmente funções de primeira classe, nosso foco nesse capítulo.
 
-Na mesma palestra citada no início deste capítulo, refletindo sobre o 20º aniversário de _Padrões de Projetos: Soluções Reutilizáveis de Software Orientados a Objetos_, Ralph Johnson afirmou que um dos defeitos do livro é: "Excesso de ênfase nos padrões como linhas de chegada, em vez de como etapas em um processo de design".footnote:["Root Cause Analysis of Some Faults in Design Patterns" (_Análise das Causas Básicas de Alguns Defeitos em Padrões de Projetos_), palestra apresentada por Johnson no IME/CCSL da Universidade de São Paulo, em 15 de novembro de 2014.] Neste capítulo usamos o padrão Estratégia como ponto de partida: uma solução que funcionava, mas que simplificamos usando funções de primeir classe.
+Na mesma palestra citada no início deste capítulo, refletindo sobre o 20º aniversário de _Padrões de Projetos: Soluções Reutilizáveis de Software Orientados a Objetos_, Ralph Johnson afirmou que um dos defeitos do livro é: "Excesso de ênfase nos padrões como linhas de chegada, em vez de como etapas em um processo de design".footnote:["Root Cause Analysis of Some Faults in Design Patterns" (_Análise das Causas Básicas de Alguns Defeitos em Padrões de Projetos_), palestra apresentada por Johnson no IME/CCSL da Universidade de São Paulo, em 15 de novembro de 2014.] Neste capítulo usamos o padrão Estratégia como ponto de partida: uma solução que funcionava, mas que simplificamos usando funções de primeira classe.
 
 Em muitos casos, funções ou objetos invocáveis oferecem um caminho mais natural para implementar _callbacks_ em Python que a imitação dos padrões Estratégia ou Comando como descritos por Gamma, Helm, Johnson, e Vlissides em _Padrões de Projetos_. A refatoração de Estratégia e a discussão de Comando nesse capítulo são exemplos de uma ideia mais geral: algumas vezes você pode encontrar uma padrão de projeto ou uma API que exigem que seus componentes implementem uma interface com um único método, e aquele método tem um nome que soa muito genérico, como "executar", "rodar" ou "fazer". Tais padrões ou APIs podem frequentemente ser implementados em Python com menos código repetitivo, usando funções como objetos de primeira classe.
 
@@ -430,7 +430,7 @@ Não sei se a descoberta dele tem alguma utilidade, mas eis um fato engraçado:
 'eggs'
 ----
 
-https://fpy.li/10-8[Turtles all the way down ]footnote:[(NT) Literalmente "_Tartarugas até embaixo_" ou algo como "_Tartarugas até onde a vista alcança_" ou "_Uma torre infinita de tartarugas_". Curiosamente, um livro com esse nome foi publicado no Brasil com o título "Mil vezes adeus", na tradição brasileira (especialmente para filmes) de traduzir nomes de obras de forma preguiçosa ou aleatória.]
+https://fpy.li/10-8[Turtles all the way down ]footnote:[NT: Literalmente "_Tartarugas até embaixo_" ou algo como "_Tartarugas até onde a vista alcança_" ou "_Uma torre infinita de tartarugas_". Curiosamente, um livro com esse nome foi publicado no Brasil com o título "Mil vezes adeus", na tradição brasileira (especialmente para filmes) de traduzir nomes de obras de forma preguiçosa ou aleatória.]
 
 
 ****

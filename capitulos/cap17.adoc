@@ -638,9 +638,9 @@ As((("iterators", "lazy sentences", id="Ilazy17")))((("generators", "lazy genera
 ==== Sentence versão #4: uma geradora preguiçosa
 
 A interface `Iterator` foi projetada para ser preguiçosa: `next(my_iterator)` produz um item por vez.
-O oposto de preguiçosa é ansiosa: avaliação preguiçosa e ansiosa são termos técnicos da teoria das linguagens de programaçãofootnote:[(NT) Os termos em inglês são _lazy_ (preguiçosa) e _eager_ (ansiosa). Em português essas traduções aparecem, mas a literatura usa também avaliação _estrita_ e avaliação _não estrita_. Optamos pelos termos "preguiçosa" e "ansiosa", que parecem mais claros.].
+O oposto de preguiçosa é ávida: avaliação preguiçosa e ávida são termos técnicos da teoria das linguagens de programaçãofootnote:[NT: Os termos em inglês são _lazy_ (preguiçosa) e _eager_ (ávida). Em português essas traduções aparecem, mas a literatura usa também avaliação _estrita_ e avaliação _não estrita_. Optamos pelos termos "preguiçosa" e "ávida", que parecem mais claros.].
 
-Até aqui, nossas implementações de `Sentence` não são preguiçosas, pois o `+__init__+` cria ansiosamente uma lista com todas as palavras no texto, vinculando-as ao atributo `self.words`.
+Até aqui, nossas implementações de `Sentence` não são preguiçosas, pois o `+__init__+` cria avidamemente uma lista com todas as palavras no texto, vinculando-as ao atributo `self.words`.
 Isso exige o processamento do texto inteiro, e a lista pode acabar usando tanta memória quanto o próprio texto (provavelmente mais: vai depender de quantos caracteres que não fazem parte de palavras existirem no texto).
 A maior parte desse trabalho será inútil se o usuário iterar apenas sobre as primeiras palavras. 
 Se você está se perguntado se "Existiria uma forma preguiçosa de fazer isso em Python?", a resposta muitas vezes é "Sim".
@@ -707,7 +707,7 @@ end.
 ----
 ====
 <1> Está é a mesma função `gen_AB` do <<ex_gen_ab>>.
-<2> A compreensão de lista itera ansiosamente sobre os itens produzidos pelo objeto gerador devolvido por `gen_AB()`: `'A'` e `'B'`. Observe a saída nas linhas seguintes: `start`, `continue`, `end.`
+<2> A compreensão de lista itera avidamente sobre os itens produzidos pelo objeto gerador devolvido por `gen_AB()`: `'A'` e `'B'`. Observe a saída nas linhas seguintes: `start`, `continue`, `end.`
 <3> Esse loop `for` itera sobre a lista `res1` criada pela compreensão de lista.
 <4> A expressão geradora devolve `res2`, um objeto gerador. O gerador não é consumido aqui.
 <5> Este gerador obtém itens de `gen_AB` apenas quando o loop `for` itera sobre `res2`. Cada iteração do loop `for` invoca, implicitamente, `next(res2)`, que por sua vez invoca `next()` sobre o objeto gerador devolvido por `gen_AB()`, fazendo este último avançar até o próximo `yield`.
@@ -1800,7 +1800,7 @@ include::code/17-it-generator/iter_gen_type.py[]
 ----
 ====
 <1> Uma expressão geradora que produz palavras reservadas do Python com menos de `5` caracteres.
-<2> O Mypy infere: `typing.Generator[builtins.str*, None, None]`.footnote:[Na versão 0.910 (NT: a última versão disponível quando este capítulo foi escrito), o Mypy ainda utiliza os tipos descontinuados de `typing`.]
+<2> O Mypy infere: `typing.Generator[builtins.str*, None, None]`.footnote:[Na versão 0.910, a versão mais recente disponível quando escrevi este capítulo), o Mypy ainda utiliza os tipos descontinuados de `typing`.]
 <3> Isso também produz strings, mas acrescentei uma dica de tipo explícita.
 <4> Tipo revelado: `typing.Iterator[builtins.str]`.
 
@@ -2324,7 +2324,7 @@ Mas essa não era uma opção viável, pelo tamanho dos conjuntos de dados.
 Usando geradoras, a leitura e a escrita são intercaladas, então o script pode processar arquivos de qualquer tamanho.
 Além disso, a lógica especial para ler um registro em formatos de entrada diferentes está isolada da lógica de reestruturação de cada registro para escrita.
 
-Agora, se precisarmos que _isis2json.py_ suporte um formato de entrada adicional—digamos, MARCXML, uma DTD (NT: sigle de _Document Type Definition_, Definição de Tipo de Documento) usada pela Biblioteca do Congresso norte-americano para representar dados ISO-2709—será fácil acrescentar uma terceira função geradora para implementar a lógica de leitura, sem mudar nada na complexa função `write_json`.
+Agora, se precisarmos que _isis2json.py_ suporte um formato de entrada adicional—digamos, MARCXML, uma DTDfootnote:[NT: sigla de _Document Type Definition_, Definição de Tipo de Documento] usada pela Biblioteca do Congresso norte-americano para representar dados ISO-2709—será fácil acrescentar uma terceira função geradora para implementar a lógica de leitura, sem mudar nada na complexa função `write_json`.
 
 Não é ciência de foguete, mas é um exemplo real onde as geradoras permitiram um solução eficiente e flexível para processar bancos de dados como um fluxo de registros, mantendo o uso de memória baixo e independente do tamanho do conjunto de dados.((("", startref="SSplgen17")))
 

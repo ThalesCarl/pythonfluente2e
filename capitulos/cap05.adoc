@@ -296,7 +296,7 @@ City(name='Tokyo', country='JP', population=36.933, coordinates=(35.689722,
 ----
 ====
 <1> São necessários dois parâmetros para criar uma tupla nomeada: um nome de classe e uma lista de nomes de campos, que podem ser passados como um iterável de strings ou como uma única string com os nomes delimitados por espaços.
-<2> Na inicializaçòa de uma instância, os valores dos campos devem ser passados como argumentos posicionais separados (uma `tuple`, por outro lado, é inicializada com um único iterável)
+<2> Na inicialização de uma instância, os valores dos campos devem ser passados como argumentos posicionais separados (uma `tuple`, por outro lado, é inicializada com um único iterável)
 <3> É possível acessar os campos por nome ou por posição.
 
 Como uma subclasse de `tuple`, `City` herda métodos úteis, tal como `+__eq__+` e os métodos especiais para operadores de comparação—incluindo `+__lt__+`, que permite ordenar listas de instâncias de `City`.
@@ -595,7 +595,7 @@ Mas `typing.NamedTuple` cria os atributos de classe `a` e `b`.
 O atributo c é apenas um atributo de classe simples, com o valor `'spam'`.
 
 Os atributos de classe `a` e `b` são((("descriptors"))) descritores (_descriptors_)—um recurso avançado tratado no <<attribute_descriptors>>.
-Por ora, pense neles como similares a um _getter_ de propriedades do objetofootnote:[(NT) Um _getter_ é um método que devolve o valor um atributo do objeto. Para propriedades mutáveis, o _getter_ vem geralmente acompanhado por um _setter_, que modifica a mesma propriedade. Os nomes derivam dos verbos em inglês _get_ (obter, receber) e _set_ (definir, estabelecer).]:
+Por ora, pense neles como similares a um _getter_ de propriedades do objetofootnote:[NT: Um _getter_ é um método que devolve o valor um atributo do objeto. Para propriedades mutáveis, o _getter_ vem geralmente acompanhado por um _setter_, que modifica a mesma propriedade. Os nomes derivam dos verbos em inglês _get_ (obter, receber) e _set_ (definir, estabelecer).]:
 métodos que não exigem o operador explícito de chamada `()` para obter um atributo de instância.
 Na prática, isso significa que `a` e `b` vão funcionar como atributos de instância somente para leitura—o que faz sentido, se lembrarmos que instâncias de `DemoNTClass` são apenas tuplas chiques, e tuplas são imutáveis.
 
@@ -607,7 +607,7 @@ A `DemoNTClass` também recebe uma docstring personalizada:
 'DemoNTClass(a, b)'
 ----
 
-Let's inspect an instance of `DemoNTClass`:
+Vamos examinar uma instância de `DemoNTClass`:
 
 [source, pycon]
 ----
@@ -1002,8 +1002,8 @@ O <<initvar_ex>> mostra o código que ilustra a seção https://docs.python.org/
 @dataclass
 class C:
     i: int
-    j: int = None
-    database: InitVar[DatabaseType] = None
+    j: int | None = None
+    database: InitVar[DatabaseType | None] = None
 
     def __post_init__(self, database):
         if self.j is None and database is not None:
@@ -1098,7 +1098,7 @@ Classes de dados são úteis, mas podem estar sendo usadas de forma excessiva em
 
 Independente((("data class builders", "data class as code smell", id="DCBsmell05")))((("code smells", id="codesmells05"))) de você implementar uma classe de dados escrevendo todo o código ou aproveitando as facilidades oferecidas por alguma das fábricas de classes descritas nesse capítulo, fique alerta: isso pode sinalizar um problema em seu design.
 
-No pass:[<a href="https://martinfowler.com/books/refactoring.html" class="orm:hideurl"><em>Refactoring: Improving the Design of Existing Code</em> (<em>Refatorando: Melhorando o Design de Código Existente</em>), 2nd ed.</a>] (Addison-Wesley), Martin Fowler e Kent Beck apresentam um catálogo de "_cheiros no código_"footnote:[(NT) _Code smell_ em geral não é traduzido na bibliografia em português—uma tradução quase literal seria "fedor no código". Uma tradução mais gentil pode ser "cheiro no código", adotado aqui (mais gentil e menos enviesada: um "cheiro no código" nem sempre é indicação de um problema)]—padrões no código que podem indicar a necessidade de refatoração. O verbete entitulado "Data Class" (_Classe de Dados_) começa assim:
+No pass:[<a href="https://martinfowler.com/books/refactoring.html" class="orm:hideurl"><em>Refactoring: Improving the Design of Existing Code</em> (<em>Refatorando: Melhorando o Design de Código Existente</em>), 2nd ed.</a>] (Addison-Wesley), Martin Fowler e Kent Beck apresentam um catálogo de "_cheiros no código_"footnote:[NT: _Code smell_ em geral não é traduzido na bibliografia em português—uma tradução quase literal seria "fedor no código". Uma tradução mais gentil pode ser "cheiro no código", adotado aqui. Mais gentil e menos enviesada: um "cheiro no código" nem sempre é indicação de um problema.]—padrões no código que podem indicar a necessidade de refatoração. O verbete entitulado "Data Class" (_Classe de Dados_) começa assim:
 
 [quote]
 ____
