@@ -70,7 +70,7 @@ A sobrecarga de operadores tem má-fama em certos círculos. É um recurso da li
 * Não é permitido criar novos operadores, apenas sobrecarregar os existentes.
 * Alguns poucos operadores não podem ser sobrecarregados: `is`, `and`, `or` e `not` (mas os operadores binários `&`, `|`, e `~` podem).
 
-No <<user_defined_sequences>>, na classe `Vector`, já apresentamos um operador infixo: `==`, suportado pelo método `+__eq__+`. Nesse capítulo, vamos melhorar a implementação de `+__eq__+` para lidar melhor com operandos de outros tipos além de `Vector`. Entretanto, os operadores de comparação cheia (`==`, `!=`, `>`, `<`, `>=`, `<=`) são casos especiais de sobrecarga de operadores, então começaremos sobrecarregando quatro operadores aritméticos em `Vector`: os operadores unários `-` e `+`, seguido pelos infixos `+` e `*`.
+No <<user_defined_sequences>>, na classe `Vector`, já apresentamos um operador infixo: `==`, suportado pelo método `+__eq__+`. Nesse capítulo, vamos melhorar a implementação de `+__eq__+` para lidar melhor com operandos de outros tipos além de `Vector`. Entretanto, os operadores de comparação cheia (`==`, `!=`, `>`, `<`, `>=`, `<=`) são casos especiais de sobrecarga de operadores, então começaremos sobrecarregando quatro operadores aritméticos em `Vector`: os operadores unários `-` e `+++`, seguido pelos infixos `+++` e `*`.
 
 Vamos começar pelo tópico mais fácil: operadores unários.
 
@@ -87,7 +87,7 @@ O pass:[<a href="https://docs.python.org/pt-br/3/reference/datamodel.html#object
 
 É fácil suportar operadores unários. Basta implementar o método especial apropriado, que receberá apenas um argumento: `self`. Use a lógica que fizer sentido na sua classe, mas se atenha à regra geral dos operadores: sempre devolva um novo objeto. Em outras palavras, não modifique o destinatário (`self`), crie e devolva uma nova instância do tipo adequado.
 
-No caso de `-` e `+`, o resultado será provavelmente uma instância da mesma classe de `self`. Para o `+` unário, se o destinatário for imutável você deveria devolver `self`; caso contrário, devolva uma cópia de `self`.
+No caso de `-` e `+++`, o resultado será provavelmente uma instância da mesma classe de `self`. Para o `+++` unário, se o destinatário for imutável você deveria devolver `self`; caso contrário, devolva uma cópia de `self`.
 Para `abs()`, o resultado deve ser um número escalar.
 
 Já no caso de `~`, é difícil determinar o que seria um resultado razoável se você não estiver lidando com bits de um número inteiro.
@@ -142,7 +142,7 @@ include::code/16-op-overloading/unary_plus_decimal.py[tags=UNARY_PLUS_DECIMAL]
 
 O fato é que cada ocorrência da expressão `+one_third` produz uma nova instância de `Decimal` a partir do valor de `one_third`, mas usando a precisão do contexto aritmético atual.
 
-Podemos encontrar o segundo caso onde `x != +x` na https://docs.python.org/pt-br/3/library/collections.html#collections.Counter[documentação] de `collections.Counter`. A classe `Counter` implementa vários operadores aritméticos, incluindo o `+` infixo, para somar a contagem de duas instâncias de `Counter`. Entretanto, por razões práticas, a adição em `Counter` descarta do resultado qualquer item com contagem negativa ou zero. E o prefixo `+` é um atalho para somar um `Counter` vazio, e portanto produz um novo `Counter`, preservando apenas as contagens maiores que zero. Veja o <<ex_unary_plus_counter>>.
+Podemos encontrar o segundo caso onde `x != +x` na https://docs.python.org/pt-br/3/library/collections.html#collections.Counter[documentação] de `collections.Counter`. A classe `Counter` implementa vários operadores aritméticos, incluindo o `+` infixo, para somar a contagem de duas instâncias de `Counter`. Entretanto, por razões práticas, a adição em `Counter` descarta do resultado qualquer item com contagem negativa ou zero. E o prefixo `+++` é um atalho para somar um `Counter` vazio, e portanto produz um novo `Counter`, preservando apenas as contagens maiores que zero. Veja o <<ex_unary_plus_counter>>.
 
 [[ex_unary_plus_counter]]
 .O + unário produz um novo `Counter`sem as contagens negativas ou zero
@@ -171,8 +171,8 @@ Agora voltamos à nossa programação normal.((("", startref="OOunary16")))(((""
 === Sobrecarregando + para adição de Vector
 
 A((("operator overloading", "overloading &#x002B; for vector addition", id="OOplus16")))((("mathematical vector operations")))((("&#x002B; operator", id="Plusover16")))((("vectors", "overloading &#x002B; for vector addition", id="Voverload16"))) classe `Vector` é um tipo sequência,
-e a seção https://docs.python.org/pt-br/3/reference/datamodel.html#emulating-container-types["3.3.7. Emulando de tipos contêineres"] do capítulo "Modelo de Dados", na documentação oficial do Python, diz que sequências devem suportar o operador `+` para concatenação e o `+*+` para repetição.
-Entretanto, aqui vamos implementar `+` e `+*+` como operações matemáticas de vetores, algo um pouco mais complicado mas mais significativo para um tipo `Vector`.
+e a seção https://docs.python.org/pt-br/3/reference/datamodel.html#emulating-container-types["3.3.7. Emulando de tipos contêineres"] do capítulo "Modelo de Dados", na documentação oficial do Python, diz que sequências devem suportar o operador `+++` para concatenação e o `+*+` para repetição.
+Entretanto, aqui vamos implementar `+++` e `+*+` como operações matemáticas de vetores, algo um pouco mais complicado mas mais significativo para um tipo `Vector`.
 
 [TIP]
 ====
@@ -249,7 +249,7 @@ Vector([4.0, 6.0, 5.0])
 ----
 ====
 
-Os dois usos de `+` no <<ex_vector_add_demo_mixed_ok>> funcionam porque `+__add__+` usa
+Os dois usos de `+++` no <<ex_vector_add_demo_mixed_ok>> funcionam porque `+__add__+` usa
 `zip_longest(…)`, capaz de consumir qualquer iterável, e a expressão geradora que cria um novo `Vector` simplemente efetua a operação `a + b` com os pares produzidos por `zip_longest(…)`, então um iterável que produza quaisquer itens numéricos servirá.
 
 Entretanto, se trocarmos a ordem dos operandos (no <<ex_vector_add_demo_mixed_fail>>), a soma de tipos diferentes falha.
