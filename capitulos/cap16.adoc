@@ -641,7 +641,7 @@ class Vector:
                 all(a == b for a, b in zip(self, other)))
 ----
 
-Eaae método produz os resultados do <<eq_initial_demo>>.
+Esse método produz os resultados do <<eq_initial_demo>>.
 
 [[eq_initial_demo]]
 .Comparando um `Vector` a um `Vector`, a um `Vector2d`, e a uma `tuple`
@@ -853,7 +853,7 @@ include::code/16-op-overloading/bingoaddable.py[tags=ADDABLE_BINGO_IADD_DEMO]
 <5> Durante todo esse exemplo, `globe` sempre se refere ao mesmo objeto que `globe_orig`.
 <6> Tentar adicionar um não-iterável a uma `AddableBingoCage` falha com uma mensagem de erro apropriada.
 
-Observe que o operador `+=` é mais liberal que `+` quanto ao segundo operando. Com `+`, queremos que ambos os operandos sejam do mesmo tipo (nesse caso, `AddableBingoCage`), pois se aceitássemos tipos diferentes, isso poderia causar confusão quanto ao tipo do resultado. Com o `+=`, a situação é mais clara: o objeto à esquerda do operador é atualizado no mesmo lugar, então não há dúvida quanto ao tipo do resultado.
+Observe que o operador `++=+` é mais liberal que `+++` quanto ao segundo operando. Com `+++`, queremos que ambos os operandos sejam do mesmo tipo (nesse caso, `AddableBingoCage`), pois se aceitássemos tipos diferentes, isso poderia causar confusão quanto ao tipo do resultado. Com o `++=+`, a situação é mais clara: o objeto à esquerda do operador é atualizado no mesmo lugar, então não há dúvida quanto ao tipo do resultado.
 
 [TIP]
 ====
